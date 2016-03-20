@@ -42,7 +42,7 @@
 	self = [super init];
 	if (self) {
 #warning (JSQ changes) Change image for bubbles
-        _bubbleImage = [UIImage imageNamed:@"rectangle421Copy@3x"]; //bubbleImage;
+        _bubbleImage = [UIImage imageNamed:@"rectangle421Copy"]; //bubbleImage;
         
         if (UIEdgeInsetsEqualToEdgeInsets(capInsets, UIEdgeInsetsZero)) {
             _capInsets = [self jsq_centerPointEdgeInsetsForImageSize:bubbleImage.size];

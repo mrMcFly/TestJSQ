@@ -86,6 +86,7 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:[NSBundle bundleForClass:[self class]]];
 }
 
+#warning (JSQ other) Interesting hack for cell indentifier
 + (NSString *)cellReuseIdentifier
 {
     return NSStringFromClass([self class]);
@@ -195,9 +196,8 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
     [self jsq_updateConstraint:self.cellTopLabelHeightConstraint
                   withConstant:customAttributes.cellTopLabelHeight];
 
-#warning (JSQ changes) Change height for Top label heightConstraint (For Avatar size 24*24. Default top label height = 20)
     [self jsq_updateConstraint:self.messageBubbleTopLabelHeightConstraint
-                  withConstant:customAttributes.messageBubbleTopLabelHeight]; //+4 but and message height problems
+                  withConstant:customAttributes.messageBubbleTopLabelHeight];
 
     [self jsq_updateConstraint:self.cellBottomLabelHeightConstraint
                   withConstant:customAttributes.cellBottomLabelHeight];
@@ -311,6 +311,20 @@ static NSMutableSet *jsqMessagesCollectionViewCellActions = nil;
 - (void)setMediaView:(UIView *)mediaView
 {
 #warning (JSQ changes) Method for IMAGE bubble (!!!!!!!!!!!!) Add another container view (layout problems)
+    //Добавить внутрь textView + image
+    
+    NSString *sourceString = [[NSThread callStackSymbols] objectAtIndex:1];
+    // Example: 1   UIKit                               0x00540c89 -[UIApplication _callInitializationDelegatesForURL:payload:suspended:] + 1163
+    NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString  componentsSeparatedByCharactersInSet:separatorSet]];
+    [array removeObject:@""];
+    
+    NSLog(@"Stack = %@", [array objectAtIndex:0]);
+    NSLog(@"Framework = %@", [array objectAtIndex:1]);
+    NSLog(@"Memory address = %@", [array objectAtIndex:2]);
+    NSLog(@"Class caller = %@", [array objectAtIndex:3]);
+    NSLog(@"Function caller = %@", [array objectAtIndex:4]);
+    
     [self.messageBubbleImageView removeFromSuperview];
     [self.textView removeFromSuperview];
 
